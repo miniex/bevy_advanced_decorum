@@ -1,0 +1,13 @@
+# Code Editor & IDE
+.vscode
+.zed
+.idea
+
+# OS
+.DS_Store
+
+# Cargo
+Cargo.lock
+.cargo
+target/
+**/*.rs.bk

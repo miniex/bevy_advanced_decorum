@@ -1,0 +1,57 @@
+[package]
+name = "bevy_advanced_decorum"
+version = "0.0.1"
+authors = ["Han Damin <handamin0130@gmail.com>"]
+edition = "2021"
+description = "A highly customizable window decoration plugin for the Bevy engine, inspired by tauri-plugin-decorum"
+repository = "https://github.com/miniex/bevy_advanced_decorum"
+homepage = "https://github.com/miniex/bevy_advanced_decorum"
+documentation = ""
+keywords = [
+  "bevy",
+  "decorum",
+  "bevy_advanced_decorum",
+  "decoration",
+  "winit",
+  "window",
+]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+exclude = []
+
+[features]
+default = []
+
+[dependencies]
+cocoa = { version = "0.25.0" }
+objc = { version = "0.2.7" }
+rand = { version = "0.8.5" }
+raw-window-handle = { version = "0.6.0" }
+winit = { version = "0.29", features = ["rwh_06"] }
+accesskit_winit = { version = "0.17", default-features = false, features = [
+  "rwh_06",
+] }
+
+[dependencies.bevy]
+version = "0.13.2"
+default-features = false
+features = ["bevy_ui"]
+
+[dev-dependencies.bevy]
+version = "0.13.2"
+default-features = false
+features = [
+  "bevy_asset",
+  "bevy_core_pipeline",
+  "bevy_pbr",
+  "bevy_render",
+  "bevy_ui",
+  "x11",
+  "tonemapping_luts",
+  "ktx2",
+  "zstd",
+]
+
+
+[[example]]
+name = "macos"
