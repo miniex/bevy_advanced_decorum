@@ -10,13 +10,12 @@
 #[macro_use]
 extern crate objc;
 
-mod decorum;
 pub mod plugin;
+pub mod settings;
 #[cfg(target_os = "macos")]
 mod traffic;
 
 pub mod prelude {
     pub use crate::plugin::DecorumPlugin;
+    pub use crate::settings::DecorumSettings;
 }
-
-pub use decorum::*;

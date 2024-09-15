@@ -1,15 +1,14 @@
+use crate::settings::DecorumSettings;
 use bevy::prelude::*;
 
-use crate::decorum::WindowDecorum;
-
 pub struct DecorumPlugin {
-    pub primary_window_decorum: Option<WindowDecorum>,
+    settings: DecorumSettings,
 }
 
 impl Default for DecorumPlugin {
     fn default() -> Self {
         DecorumPlugin {
-            primary_window_decorum: Some(WindowDecorum::default()),
+            settings: DecorumSettings::default(),
         }
     }
 }
@@ -18,13 +17,19 @@ impl DecorumPlugin {
     pub fn new() -> Self {
         DecorumPlugin::default()
     }
+
+    pub fn with_settings(settings: DecorumSettings) -> Self {
+        DecorumPlugin { settings }
+    }
 }
 
 impl Plugin for DecorumPlugin {
     fn build(&self, app: &mut App) {
         #[cfg(target_os = "macos")]
         {
+            app.insert_resource(self.settings.clone());
             app.add_systems(PreStartup, crate::traffic::setup_traffic_light_positioner);
+            app.add_systems(PreUpdate, crate::traffic::update_traffic_light_positioner);
         }
     }
 }

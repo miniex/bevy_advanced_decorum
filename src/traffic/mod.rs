@@ -1,3 +1,4 @@
+use crate::settings::DecorumSettings;
 use bevy::prelude::*;
 use bevy::window::RawHandleWrapper;
 use objc::{msg_send, sel, sel_impl};
@@ -56,6 +57,7 @@ struct WindowState {
 #[cfg(target_os = "macos")]
 pub fn setup_traffic_light_positioner(
     raw_handle_wrapper_query: Query<(Entity, &Window, &RawHandleWrapper)>,
+    settings: Res<DecorumSettings>,
 ) {
     use cocoa::appkit::NSWindow;
     use cocoa::base::{id, BOOL};
@@ -73,11 +75,11 @@ pub fn setup_traffic_light_positioner(
                 let ns_window_ptr = msg_send![ns_view, window];
                 let ns_window = ns_window_ptr as id;
 
-                // ns_window.setTitlebarAppearsTransparent_(true);
-                // ns_window.setStyleMask_(
-                //     ns_window.styleMask()
-                //         | cocoa::appkit::NSWindowStyleMask::NSFullSizeContentViewWindowMask,
-                // );
+                ns_window.setTitlebarAppearsTransparent_(settings.transparent_titlebar);
+                ns_window.setStyleMask_(
+                    ns_window.styleMask()
+                        | cocoa::appkit::NSWindowStyleMask::NSFullSizeContentViewWindowMask,
+                );
 
                 position_traffic_light(
                     UnsafeWindowHandle(ns_window_ptr),
@@ -310,5 +312,28 @@ pub fn setup_traffic_light_positioner(
     }
 }
 
-// #[cfg(target_os = "macos")]
-// pub fn update_traffic_light_positioner() {}
+#[cfg(target_os = "macos")]
+pub fn update_traffic_light_positioner(
+    raw_handle_wrapper_query: Query<(Entity, &Window, &RawHandleWrapper)>,
+) {
+    use cocoa::base::id;
+    use raw_window_handle::RawWindowHandle;
+    use std::ffi::c_void;
+
+    for (_entity, _window, raw_handle_wrapper) in raw_handle_wrapper_query.iter() {
+        if let RawWindowHandle::AppKit(appkit_handle) = raw_handle_wrapper.window_handle {
+            let ns_view_ptr: *mut c_void = appkit_handle.ns_view.as_ptr();
+
+            unsafe {
+                let ns_view: id = ns_view_ptr as id;
+                let ns_window_ptr = msg_send![ns_view, window];
+
+                position_traffic_light(
+                    UnsafeWindowHandle(ns_window_ptr),
+                    WINDOW_CONTROL_PAD_X,
+                    WINDOW_CONTROL_PAD_Y,
+                );
+            }
+        }
+    }
+}
