@@ -1,12 +1,16 @@
 [package]
 name = "bevy_advanced_decorum"
-version = "0.0.1"
-authors = ["Han Damin <handamin0130@gmail.com>"]
-edition = "2021"
+version = "0.1.0-dev"
+authors = ["Han Damin <miniex0130@daminstudio.net>"]
 description = "A highly customizable window decoration plugin for the Bevy engine, inspired by tauri-plugin-decorum"
+edition = "2021"
+rust-version = "1.81.0"
+
 repository = "https://github.com/miniex/bevy_advanced_decorum"
 homepage = "https://github.com/miniex/bevy_advanced_decorum"
 documentation = ""
+
+categories = ["game-engines", "graphics", "gui", "rendering"]
 keywords = [
   "bevy",
   "decorum",
@@ -16,7 +20,7 @@ keywords = [
   "window",
 ]
 license = "MIT OR Apache-2.0"
-readme = "README.md"
+
 exclude = []
 
 [features]
@@ -33,12 +37,12 @@ accesskit_winit = { version = "0.17", default-features = false, features = [
 ] }
 
 [dependencies.bevy]
-version = "0.13.2"
+version = "0.14.2"
 default-features = false
 features = ["bevy_ui"]
 
 [dev-dependencies.bevy]
-version = "0.13.2"
+version = "0.14.2"
 default-features = false
 features = [
   "bevy_asset",
@@ -55,3 +59,22 @@ features = [
 
 [[example]]
 name = "macos"
+
+[lints.clippy]
+doc_markdown = "warn"
+manual_let_else = "warn"
+match_same_arms = "warn"
+redundant_closure_for_method_calls = "warn"
+redundant_else = "warn"
+semicolon_if_nothing_returned = "warn"
+type_complexity = "allow"
+undocumented_unsafe_blocks = "warn"
+unwrap_or_default = "warn"
+
+ptr_as_ptr = "warn"
+ptr_cast_constness = "warn"
+ref_as_ptr = "warn"
+
+[lints.rust]
+missing_docs = "warn"
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(docsrs_dep)'] }
