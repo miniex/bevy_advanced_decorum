@@ -10,10 +10,13 @@
 #[macro_use]
 extern crate objc;
 
+pub mod linux;
+#[cfg(target_os = "macos")]
+pub mod macos;
 pub mod plugin;
 pub mod settings;
-#[cfg(target_os = "macos")]
-mod traffic;
+pub mod window;
+pub mod windows;
 
 pub mod prelude {
     pub use crate::plugin::DecorumPlugin;

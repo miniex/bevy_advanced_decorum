@@ -8,7 +8,7 @@ fn main() {
 
     app.add_plugins(DefaultPlugins);
 
-    app.add_plugins(DecorumPlugin::with_settings({
+    app.add_plugins(DecorumPlugin::new({
         DecorumSettings {
             transparent_titlebar: true,
             ..Default::default()
